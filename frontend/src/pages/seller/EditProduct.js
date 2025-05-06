@@ -17,28 +17,53 @@ function EditProduct() {
     isAvailable: true,
   });
 
-  useEffect(() => {
-    fetchProduct();
-  }, []);
+  // useEffect(() => {
+  //   fetchProduct();
+  // }, []);
 
-  const fetchProduct = async () => {
-    try {
-      const response = await axiosPrivate.get(`/api/seller/products/${id}`);
-      const data = response.data;
-      setFormData({
-        name: data.name,
-        description: data.description,
-        price: data.price,
-        category: data.category,
-        imageUrl: data.imageUrl,
-        stockQuantity: data.stockQuantity,
-        isAvailable: data.isAvailable,
-      });
-    } catch (error) {
-      console.error('Error fetching product:', error);
-      alert('Error fetching product details');
-    }
-  };
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axiosPrivate.get(`/seller/products/${id}`);
+        const data = response.data;
+        setFormData({
+          name: data.name,
+          description: data.description,
+          price: data.price,
+          category: data.category,
+          imageUrl: data.imageUrl,
+          stockQuantity: data.stockQuantity,
+          isAvailable: data.isAvailable,
+        });
+      } catch (error) {
+        console.error('Error fetching product:', error);
+        alert('Error fetching product details');
+      }
+    };
+
+    fetchProduct();  // call it
+  }, [id]); // ⭐ dependency on 'id'
+
+
+  // const fetchProduct = async () => {
+  //   try {
+  //     const response = await axiosPrivate.get(`/api/seller/products/${id}`);
+  //     const data = response.data;
+  //     setFormData({
+  //       name: data.name,
+  //       description: data.description,
+  //       price: data.price,
+  //       category: data.category,
+  //       imageUrl: data.imageUrl,
+  //       stockQuantity: data.stockQuantity,
+  //       isAvailable: data.isAvailable,
+  //     });
+  //   } catch (error) {
+  //     console.error('Error fetching product:', error);
+  //     alert('Error fetching product details');
+  //   }
+  // };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,13 +73,35 @@ function EditProduct() {
     }));
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await axiosPrivate.put(`/api/seller/products/${id}`, {
+  //       ...formData,
+  //       price: parseFloat(formData.price),
+  //       stockQuantity: parseInt(formData.stockQuantity),
+  //     });
+  //     alert('Product updated successfully!');
+  //     navigate('/seller/dashboard');
+  //   } catch (error) {
+  //     console.error('Error updating product:', error);
+  //     alert('Failed to update product');
+  //   }
+  // };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axiosPrivate.put(`/api/seller/products/${id}`, {
-        ...formData,
+      console.log("Updating product with id:", id); // ⭐ DEBUG LINE
+      await axiosPrivate.put(`/seller/products/${id}`, {
+        name: formData.name,
+        description: formData.description,
         price: parseFloat(formData.price),
+        category: formData.category,
+        imageUrl: formData.imageUrl,
         stockQuantity: parseInt(formData.stockQuantity),
+        isAvailable: formData.isAvailable,
       });
       alert('Product updated successfully!');
       navigate('/seller/dashboard');
@@ -63,6 +110,7 @@ function EditProduct() {
       alert('Failed to update product');
     }
   };
+
 
   return (
     <>

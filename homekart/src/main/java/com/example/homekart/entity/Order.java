@@ -21,9 +21,11 @@ public class Order {
 
     private int quantity;
 
-    private String status; // "PLACED", "SHIPPED", "DELIVERED" etc
+    private String status; 
 
     private LocalDateTime orderDate;
+
+    
     
     @ManyToOne
     @JoinColumn(name = "delivery_agent_id")
@@ -78,5 +80,21 @@ public class Order {
 
     public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
+    }
+
+    public DeliveryAgent getDeliveryAgent() {
+        return deliveryAgent;
+    }
+
+    public void setDeliveryAgent(DeliveryAgent deliveryAgent) {
+        this.deliveryAgent = deliveryAgent;
+    }
+
+    public String getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
+    public void setDeliveryStatus(String deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
     }
 }

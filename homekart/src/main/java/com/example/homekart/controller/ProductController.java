@@ -22,17 +22,7 @@ public class ProductController {
 
     @Autowired
     private SellerRepository sellerRepo;
-
-    // GET all products for logged-in seller
-    // @GetMapping
-    // public List<Product> getMyProducts(Authentication authentication) {
-    // String email = authentication.getName(); // JWT se nikla hua seller email
-    // Seller seller = sellerRepo.findByEmail(email)
-    // .orElseThrow(() -> new RuntimeException("Seller not found"));
-
-    // return productRepo.findBySellerId(seller.getId()); // 👈 ab sellerId se fetch
-    // hoga
-    // }
+ 
 
     @GetMapping
     public ResponseEntity<List<ProductResponseDTO>> getMyProducts(Authentication authentication) {
@@ -106,6 +96,9 @@ public class ProductController {
         String email = authentication.getName();
         Seller seller = sellerRepo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Seller not found"));
+
+        // String email = authentication.getName();
+
 
         Product product = productRepo.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));

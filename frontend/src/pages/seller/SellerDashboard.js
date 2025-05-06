@@ -87,21 +87,6 @@ function SellerDashboard() {
       <div style={{ padding: '2rem' }}>
         <h2>Seller Dashboard</h2>
 
-        {/* Add New Product Form */}
-        <form onSubmit={handleAddProduct} style={{ marginBottom: '2rem', maxWidth: '500px' }}>
-          <h3>Add New Product</h3>
-          <input type="text" name="name" placeholder="Name" value={newProduct.name} onChange={handleInputChange} required style={inputStyle} />
-          <input type="text" name="description" placeholder="Description" value={newProduct.description} onChange={handleInputChange} required style={inputStyle} />
-          <input type="number" name="price" placeholder="Price" value={newProduct.price} onChange={handleInputChange} required style={inputStyle} />
-          <input type="text" name="category" placeholder="Category" value={newProduct.category} onChange={handleInputChange} required style={inputStyle} />
-          <input type="text" name="stockQuantity" placeholder="Stock Quantity" value={newProduct.stockQuantity} onChange={handleInputChange} required style={inputStyle} />
-          <input type="text" name="imageUrl" placeholder="Image URL" value={newProduct.imageUrl} onChange={handleInputChange} style={inputStyle} />
-          <select name="isAvailable" value={newProduct.isAvailable} onChange={handleInputChange} style={inputStyle}>
-            <option value="true">Available</option>
-            <option value="false">Not Available</option>
-          </select>
-          <button type="submit" style={buttonStyle}>Add Product</button>
-        </form>
 
         {/* Your Products List */}
         <h3>Your Products</h3>

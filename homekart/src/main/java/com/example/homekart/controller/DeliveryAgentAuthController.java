@@ -44,20 +44,7 @@ public class DeliveryAgentAuthController {
         return ResponseEntity.ok("Delivery agent registered successfully!");
     }
 
-    // @PostMapping("/login")
-    // public ResponseEntity<?> login(@RequestBody DeliveryAgentLoginRequest request) {
-    //     DeliveryAgent agent = deliveryAgentRepository.findByEmail(request.getEmail())
-    //             .orElseThrow(() -> new RuntimeException("Invalid email or password"));
-
-    //     if (!passwordEncoder.matches(request.getPassword(), agent.getPassword())) {
-    //         throw new RuntimeException("Invalid email or password");
-    //     }
-
-    //     String token = jwtUtil.generateToken(agent.getEmail());
-    //     return ResponseEntity.ok(Map.of("token", token));
-    // }
-
-
+ 
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
@@ -74,7 +61,7 @@ public class DeliveryAgentAuthController {
         response.put("token", token);
         response.put("name", delivery.getName());
         response.put("email", delivery.getEmail());
-        response.put("role", "customer");
+        response.put("role", "delivery");
 
         return ResponseEntity.ok(response);
     }

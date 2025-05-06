@@ -29,7 +29,7 @@ function AddProduct() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axiosPrivate.post('/api/seller/products', {
+      await axiosPrivate.post('/seller/products', {
         ...formData,
         price: parseFloat(formData.price),
         stockQuantity: parseInt(formData.stockQuantity),

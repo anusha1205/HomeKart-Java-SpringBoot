@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface DeliveryAgentRepository extends JpaRepository<DeliveryAgent, Long> {
     Optional<DeliveryAgent> findByEmail(String email);
+    
 }

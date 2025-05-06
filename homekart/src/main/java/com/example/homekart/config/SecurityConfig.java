@@ -51,15 +51,43 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return new ProviderManager(List.of(
-                customerAuthenticationProvider(), 
-                sellerAuthenticationProvider()
-        ));
+                customerAuthenticationProvider(),
+                sellerAuthenticationProvider()));
     }
 
+    // @Bean
+    // public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    // http
+    // .csrf(csrf -> csrf.disable())
+    // .cors(cors -> cors.disable()) // ⭐ If not handling CORS separately
+    // .authorizeHttpRequests(auth -> auth
+    // .requestMatchers(
+    // "/api/customer/auth/**",
+    // "/api/admin/auth/**",
+    // "/api/seller/auth/**",
+    // "/api/delivery/auth/**",
+    // "/api/public/**",
+    // "/api/seller/products",
+    // "/api/**",
+    // "/",
+    // "/home",
+    // "/error")
+    // .permitAll()
+    // .requestMatchers(org.springframework.http.HttpMethod.OPTIONS,
+    // "/**").permitAll()
+
+    // .anyRequest().authenticated())
+    // .sessionManagement(session ->
+    // session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+    // .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
+    // return http.build();
+    // }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/customer/auth/**",
@@ -69,10 +97,9 @@ public class SecurityConfig {
                                 "/api/public/**",
                                 "/",
                                 "/home",
-                                "/error",
-                                "/api/seller/products",  
-                                "/api/**"   
-                        ).permitAll()
+                                "/error")
+                        .permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

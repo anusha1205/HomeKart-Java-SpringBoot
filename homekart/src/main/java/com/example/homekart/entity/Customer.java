@@ -19,6 +19,12 @@ public class Customer {
     @Column(nullable = false)
     private String password;
 
+    @Column
+    private String phone;
+
+    @Column 
+    private String address;
+
     // Getter-Setters
     public Long getId() { return id; }
 

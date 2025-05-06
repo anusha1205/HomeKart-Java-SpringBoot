@@ -13,20 +13,25 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(`/${role}/auth/login`, { email, password });
- 
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('name', response.data.name);
-      localStorage.setItem('email', response.data.email);
-      localStorage.setItem('role', response.data.role);
 
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('name',   response.data.name);
+      localStorage.setItem('email',  response.data.email);
+      // keep the dropdown role, not the returned one:
+      localStorage.setItem('role', role);     
 
       alert('Login Successful!');
-      navigate('/profile'); 
+      if (role === 'delivery') {
+        navigate('/delivery/orders');
+      } else {
+        navigate('/profile');
+      }
     } catch (error) {
       console.error('Login failed:', error);
       alert('Login failed: ' + (error.response?.data || error.message));
     }
   };
+
 
   return (
     <>

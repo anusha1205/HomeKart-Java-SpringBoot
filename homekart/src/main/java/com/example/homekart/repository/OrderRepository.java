@@ -13,7 +13,11 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByOrderDateBetween(Date startDate, Date endDate);
     // List<Order> findByDeliveryAgentId(Long deliveryAgentId);
     List<Order> findByDeliveryAgent(DeliveryAgent deliveryAgent);
+    List<Order> findByProduct_Seller_Id(Long sellerId);
 
+
+    // active (not yet delivered) orders
+    List<Order> findByDeliveryAgentAndDeliveryStatusNot(DeliveryAgent agent, String status);
+    // history (only delivered)
+    List<Order> findByDeliveryAgentAndDeliveryStatus(DeliveryAgent agent, String status);
 }
-
-
