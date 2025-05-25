@@ -40,6 +40,9 @@ public class OrderController {
     public ResponseEntity<String> placeOrder(
             @RequestParam Long productId,
             @RequestParam int quantity,
+            @RequestParam String address,
+            @RequestParam String phone, 
+            @RequestParam String paymentMethod,
             Authentication authentication) {
 
         String email = authentication.getName();
@@ -59,6 +62,10 @@ public class OrderController {
         order.setQuantity(quantity);
         order.setOrderDate(LocalDateTime.now());
         order.setStatus("PLACED");
+        order.setDeliveryAddress(address);
+        order.setDeliveryPhone(phone);
+        order.setPaymentMethod(paymentMethod);
+        order.setPaymentStatus("PENDING");
 
         List<DeliveryAgent> agents = agentRepo.findAll();
         if (agents.isEmpty()) {

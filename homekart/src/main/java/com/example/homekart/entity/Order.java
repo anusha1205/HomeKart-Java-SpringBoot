@@ -21,12 +21,23 @@ public class Order {
 
     private int quantity;
 
-    private String status; 
+    private String status;
 
     private LocalDateTime orderDate;
 
+    private String deliveryAddress;
+
+    private String deliveryPhone;
+
+    private String deliveryEmail;
+
+    private String paymentMethod;
+
+    // 👇 map this Java field to the mis-spelled column in your DB
+    @Column(name = "payment_status")
+    private String paymentStatus;
     
-    
+
     @ManyToOne
     @JoinColumn(name = "delivery_agent_id")
     private DeliveryAgent deliveryAgent;
@@ -96,5 +107,45 @@ public class Order {
 
     public void setDeliveryStatus(String deliveryStatus) {
         this.deliveryStatus = deliveryStatus;
+    }
+
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
+
+    public String getDeliveryPhone() {
+        return deliveryPhone;
+    }
+
+    public void setDeliveryPhone(String deliveryPhone) {
+        this.deliveryPhone = deliveryPhone;
+    }
+
+    public String getDeliveryEmail() {
+        return deliveryEmail;
+    }
+
+    public void setDeliveryEmail(String deliveryEmail) {
+        this.deliveryEmail = deliveryEmail;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 }

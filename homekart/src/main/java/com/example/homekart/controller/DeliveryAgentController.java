@@ -21,38 +21,62 @@ public class DeliveryAgentController {
     @Autowired
     private DeliveryAgentRepository agentRepo;
 
-    // 1) Active orders (not yet delivered)
+    /**
+     * 1) Get all orders assigned to this agent (excluding delivered)
+     */
     @GetMapping("/orders")
     public ResponseEntity<List<Order>> getMyOrders(Authentication auth) {
         DeliveryAgent agent = agentRepo.findByEmail(auth.getName())
                 .orElseThrow(() -> new RuntimeException("Agent not found"));
-        List<Order> orders = orderRepo.findByDeliveryAgentAndDeliveryStatusNot(agent, "DELIVERED");
+        List<Order> orders = orderRepo.findByDeliveryAgent(agent);
         return ResponseEntity.ok(orders);
     }
 
-    // 2) Mark an order shipped or delivered
+    /**
+     * 2) Mark an order as SHIPPED or DELIVERED
+     */
     @PutMapping("/orders/{orderId}/status")
     public ResponseEntity<String> updateStatus(
-            @PathVariable Long orderId,
+            @PathVariable("orderId") Long orderId,
             @RequestParam String status,
             Authentication auth) {
 
         Order order = orderRepo.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
-        // you could verify order.getDeliveryAgent().getId() == agent.getId() here
         String normalized = status.toUpperCase();
         order.setDeliveryStatus(normalized);
         orderRepo.save(order);
         return ResponseEntity.ok("Status updated to " + normalized);
     }
 
-    // 3) Delivered‐order history
+    /**
+     * 3) Delivered-order history
+     */
     @GetMapping("/orders/history")
     public ResponseEntity<List<Order>> getHistory(Authentication auth) {
         DeliveryAgent agent = agentRepo.findByEmail(auth.getName())
                 .orElseThrow(() -> new RuntimeException("Agent not found"));
-        List<Order> history = orderRepo.findByDeliveryAgentAndDeliveryStatus(agent, "Delivered");
+        // Use uppercase to match stored status
+        List<Order> history = orderRepo.findByDeliveryAgentAndDeliveryStatus(agent, "DELIVERED");
         return ResponseEntity.ok(history);
+    }
+
+    /**
+     * 4) Mark payment status (e.g. PAID)
+     */
+    @PutMapping("/orders/{orderId}/payment-status")
+    public ResponseEntity<String> updatePaymentStatus(
+            @PathVariable("orderId") Long orderId,
+            @RequestParam String status,
+            Authentication auth) {
+
+        Order order = orderRepo.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        String normalized = status.toUpperCase();
+        order.setPaymentStatus(normalized);
+        orderRepo.save(order);
+        return ResponseEntity.ok("Payment status updated to " + normalized);
     }
 }

@@ -14,6 +14,8 @@ import ViewOrders from './pages/seller/ViewOrders';
 import 'react-toastify/dist/ReactToastify.css';
 import DeliveryOrders from './pages/delivery/DeliveryOrders';
 import DeliveryHistory from './pages/delivery/DeliveryHistory';
+import SellerOrderHistory from './pages/seller/SellerOrderHistory';
+
 
 function App() {
   return (
@@ -25,13 +27,14 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/seller/dashboard" element={<SellerDashboard />} />
-          
-          
+
+
           {/* SELLERS */}
           <Route path="/seller/dashboard" element={<SellerDashboard />} />
           <Route path="/seller/add" element={<AddProduct />} />
           <Route path="/seller/edit/:id" element={<EditProduct />} />
           <Route path="/seller/orders" element={<ViewOrders />} />
+          <Route path="/seller/history" element={<SellerOrderHistory />} />
 
           {/* CUSTOMERS */}
           <Route path="/customer/cart" element={<Cart />} />

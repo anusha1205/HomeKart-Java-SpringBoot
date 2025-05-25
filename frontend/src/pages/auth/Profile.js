@@ -16,21 +16,49 @@ function Profile() {
   return (
     <>
       <Navbar />
-      <div style={{ textAlign: 'center', marginTop: '50px' }}>
-        <h2>Profile</h2>
-        <p><strong>Name:</strong> {name || 'Not available'}</p>
-        <p><strong>Email:</strong> {email || 'Not available'}</p>
-        <p><strong>Role:</strong> {role || 'Not available'}</p>
-
-        <button onClick={handleLogout} style={{
-          marginTop: '20px',
-          padding: '10px 20px',
-          backgroundColor: '#e60000',
-          color: 'white',
-          border: 'none',
-          borderRadius: '5px',
-          cursor: 'pointer'
+      <div style={{
+        maxWidth: '500px',
+        margin: '60px auto',
+        padding: '40px',
+        backgroundColor: '#fff',
+        borderRadius: '10px',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+        textAlign: 'center',
+      }}>
+        <h2 style={{
+          marginBottom: '20px',
+          fontSize: '26px',
+          fontWeight: '600',
+          color: '#333',
         }}>
+          Profile
+        </h2>
+        <p style={{ fontSize: '18px', margin: '10px 0' }}>
+          <strong>Name:</strong> {name || 'Not available'}
+        </p>
+        <p style={{ fontSize: '18px', margin: '10px 0' }}>
+          <strong>Email:</strong> {email || 'Not available'}
+        </p>
+        <p style={{ fontSize: '18px', margin: '10px 0' }}>
+          <strong>Role:</strong> {role || 'Not available'}
+        </p>
+
+        <button
+          onClick={handleLogout}
+          style={{
+            marginTop: '30px',
+            padding: '12px 24px',
+            fontSize: '16px',
+            backgroundColor: '#e60000',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            transition: 'background 0.2s ease',
+          }}
+          onMouseEnter={e => e.currentTarget.style.background='#cc0000'}
+          onMouseLeave={e => e.currentTarget.style.background='#e60000'}
+        >
           Logout
         </button>
       </div>

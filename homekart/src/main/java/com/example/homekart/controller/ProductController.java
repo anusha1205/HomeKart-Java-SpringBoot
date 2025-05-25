@@ -96,10 +96,7 @@ public class ProductController {
         String email = authentication.getName();
         Seller seller = sellerRepo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Seller not found"));
-
-        // String email = authentication.getName();
-
-
+ 
         Product product = productRepo.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 

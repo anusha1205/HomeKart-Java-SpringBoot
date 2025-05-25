@@ -5,6 +5,7 @@ import axios from '../api/axiosInstance';
 function Navbar() {
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
+  const name = localStorage.getItem('name');
   const navigate = useNavigate();
   const [cartCount, setCartCount] = useState(0);
 
@@ -28,54 +29,165 @@ function Navbar() {
     navigate('/login');
   };
 
+  const hoverLink = e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+  const leaveLink = e => e.currentTarget.style.background = 'transparent';
+
   return (
     <nav style={{
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      padding: '1rem 2rem',
-      background: '#333',
-      color: 'white'
+      padding: '0.75rem 2rem',
+      background: '#1E1E2F',
+      color: '#E0E0E0',
+      boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
+      position: 'sticky',
+      top: 0,
+      zIndex: 1000
     }}>
-      <div>
-        <Link to="/" style={{ color: 'white', marginRight: '2rem', textDecoration: 'none', fontSize: '20px', fontWeight: 'bold' }}>
+      {/* Left: Brand + Links */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+        <Link
+          to="/"
+          style={{
+            color: '#F8F8F2',
+            fontSize: '1.5rem',
+            fontWeight: '700',
+            textDecoration: 'none',
+            padding: '4px 8px'
+          }}
+          onMouseEnter={hoverLink}
+          onMouseLeave={leaveLink}
+        >
           HomeKart
         </Link>
 
         {token && role === 'seller' && (
           <>
-            <Link to="/seller/dashboard" style={linkStyle}>View Products</Link>
-            <Link to="/seller/add" style={linkStyle}>Add Product</Link>
-            <Link to="/seller/orders" style={linkStyle}>View Orders</Link>
+            <Link to="/seller/dashboard" style={linkStyle} onMouseEnter={hoverLink} onMouseLeave={leaveLink}>
+              View Products
+            </Link>
+            <Link to="/seller/add" style={linkStyle} onMouseEnter={hoverLink} onMouseLeave={leaveLink}>
+              Add Product
+            </Link>
+            <Link to="/seller/orders" style={linkStyle} onMouseEnter={hoverLink} onMouseLeave={leaveLink}>
+              Orders
+            </Link>
+            {/* <Link to="/seller/history" style={linkStyle} onMouseEnter={hoverLink} onMouseLeave={leaveLink}>
+              Order History
+            </Link> */}
           </>
         )}
 
         {token && role === 'customer' && (
           <>
-            <Link to="/customer/cart" style={linkStyle}>My Cart 🛒 {cartCount > 0 && <span style={{ color: 'yellow' }}>({cartCount})</span>}</Link>
-            <Link to="/customer/favourites" style={linkStyle}>❤️ My Favorites</Link>
-            <Link to="/customer/orders" style={linkStyle}>📦 My Orders</Link>
+            <Link to="/customer/cart" style={linkStyle} onMouseEnter={hoverLink} onMouseLeave={leaveLink}>
+              🛒 My Cart
+              {cartCount > 0 && (
+                <span style={{
+                  marginLeft: '4px',
+                  background: '#FF5555',
+                  borderRadius: '50%',
+                  padding: '2px 6px',
+                  fontSize: '0.8rem',
+                  color: '#FFF'
+                }}>{cartCount}</span>
+              )}
+            </Link>
+            <Link to="/customer/favourites" style={linkStyle} onMouseEnter={hoverLink} onMouseLeave={leaveLink}>
+              ❤️ Favorites
+            </Link>
+            <Link to="/customer/orders" style={linkStyle} onMouseEnter={hoverLink} onMouseLeave={leaveLink}>
+              📦 My Orders
+            </Link>
           </>
         )}
 
         {token && role === 'delivery' && (
           <>
-            <Link to="/delivery/orders" style={linkStyle}>Orders</Link>
-            <Link to="/delivery/history" style={linkStyle}>Order History</Link>
+            <Link to="/delivery/orders" style={linkStyle} onMouseEnter={hoverLink} onMouseLeave={leaveLink}>
+              Assigned
+            </Link>
+            <Link to="/delivery/history" style={linkStyle} onMouseEnter={hoverLink} onMouseLeave={leaveLink}>
+              History
+            </Link>
           </>
         )}
       </div>
 
-      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+      {/* Right: Auth / Profile */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
         {!token ? (
           <>
-            <Link to="/login" style={linkStyle}>Login</Link>
-            <Link to="/signup" style={linkStyle}>Signup</Link>
+            <Link to="/login" style={linkStyle} onMouseEnter={hoverLink} onMouseLeave={leaveLink}>
+              Login
+            </Link>
+            <Link to="/signup" style={linkStyle} onMouseEnter={hoverLink} onMouseLeave={leaveLink}>
+              Signup
+            </Link>
           </>
         ) : (
           <>
-            <Link to="/profile" style={linkStyle}>Profile ({role})</Link>
-            <button onClick={handleLogout} style={logoutBtn}>Logout</button>
+            {/* Profile Block */}
+            <Link
+              to="/profile"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem',
+                background: '#2a2a3d',
+                padding: '6px 12px',
+                borderRadius: '6px',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+                textDecoration: 'none',
+                color: 'inherit'
+              }}
+              onMouseEnter={hoverLink}
+              onMouseLeave={leaveLink}
+            >
+              <div style={{
+                width: '32px',
+                height: '32px',
+                borderRadius: '50%',
+                background: '#6c63ff',
+                color: '#fff',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 'bold',
+                fontSize: '0.9rem'
+              }}>
+                {name?.charAt(0).toUpperCase() || 'U'}
+              </div>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                fontSize: '0.85rem',
+                color: '#eee',
+                lineHeight: '1.4'
+              }}>
+                <div><strong>Name:</strong> {name || 'User'}</div>
+                <div><strong>Role:</strong> {role?.charAt(0).toUpperCase() + role?.slice(1)}</div>
+              </div>
+            </Link>
+
+            {/* Logout Button */}
+            <button
+              onClick={handleLogout}
+              style={{
+                background: '#FF5555',
+                color: '#FFF',
+                border: 'none',
+                padding: '6px 12px',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                transition: 'background 0.2s'
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = '#E04444'}
+              onMouseLeave={e => e.currentTarget.style.background = '#FF5555'}
+            >
+              Logout
+            </button>
           </>
         )}
       </div>
@@ -84,18 +196,12 @@ function Navbar() {
 }
 
 const linkStyle = {
-  color: 'white',
+  color: '#E0E0E0',
   marginRight: '1rem',
-  textDecoration: 'none'
-};
-
-const logoutBtn = {
-  background: '#e60000',
-  color: 'white',
-  border: 'none',
-  padding: '5px 10px',
-  borderRadius: '5px',
-  cursor: 'pointer'
+  textDecoration: 'none',
+  fontSize: '1rem',
+  padding: '4px 8px',
+  borderRadius: '4px'
 };
 
 export default Navbar;

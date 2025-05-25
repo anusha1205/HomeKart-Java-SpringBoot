@@ -1,3 +1,4 @@
+// SellerDashboard.js
 import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar';
 import axiosInstance from '../../api/axiosInstance';
@@ -6,15 +7,6 @@ import { useNavigate } from 'react-router-dom';
 function SellerDashboard() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
-  const [newProduct, setNewProduct] = useState({
-    name: '',
-    description: '',
-    price: '',
-    category: '',
-    stockQuantity: '',
-    imageUrl: '',
-    isAvailable: true,
-  });
 
   useEffect(() => {
     fetchSellerProducts();
@@ -30,43 +22,7 @@ function SellerDashboard() {
     }
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewProduct((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleAddProduct = async (e) => {
-    e.preventDefault();
-    try {
-      await axiosInstance.post('/seller/products', {
-        ...newProduct,
-        price: parseFloat(newProduct.price),
-        stockQuantity: parseInt(newProduct.stockQuantity),
-        isAvailable: newProduct.isAvailable === 'true' ? true : false,
-      });
-      alert('Product added successfully!');
-      fetchSellerProducts(); // Refresh products
-      setNewProduct({
-        name: '',
-        description: '',
-        price: '',
-        category: '',
-        stockQuantity: '',
-        imageUrl: '',
-        isAvailable: true,
-      });
-    } catch (error) {
-      console.error('Error adding product:', error);
-      alert('Error adding product: ' + (error.response?.data || error.message));
-    }
-  };
-
-  const handleEdit = (id) => {
-    navigate(`/seller/edit/${id}`);
-  };
+  const handleEdit = (id) => navigate(`/seller/edit/${id}`);
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
@@ -84,29 +40,31 @@ function SellerDashboard() {
   return (
     <>
       <Navbar />
-      <div style={{ padding: '2rem' }}>
-        <h2>Seller Dashboard</h2>
-
-
-        {/* Your Products List */}
-        <h3>Your Products</h3>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+      <div style={containerStyle}>
+        <h2 style={headingStyle}>Seller Dashboard</h2>
+        <h3 style={subheadingStyle}>Your Products</h3>
+        <div style={gridStyle}>
           {products.length > 0 ? (
-            products.map((product) => (
-              <div key={product.id} style={cardStyle}>
+            products.map(product => (
+              <div
+                key={product.id}
+                style={cardStyle}
+                onMouseEnter={e => e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.15)'}
+                onMouseLeave={e => e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)'}
+              >
                 <img src={product.imageUrl} alt={product.name} style={imageStyle} />
-                <h4>{product.name}</h4>
-                <p>₹ {product.price}</p>
-                <p>{product.description}</p>
-                <p>Stock: {product.stockQuantity}</p>
-                <div style={{ marginTop: '10px' }}>
+                <h4 style={titleStyle}>{product.name}</h4>
+                <p style={priceStyle}>₹ {product.price.toFixed(2)}</p>
+                <p style={descStyle}>{product.description}</p>
+                <p style={stockStyle}>Stock: {product.stockQuantity}</p>
+                <div style={buttonGroupStyle}>
                   <button onClick={() => handleEdit(product.id)} style={editButtonStyle}>Edit</button>
                   <button onClick={() => handleDelete(product.id)} style={deleteButtonStyle}>Delete</button>
                 </div>
               </div>
             ))
           ) : (
-            <p>No products found.</p>
+            <p style={emptyStyle}>No products found.</p>
           )}
         </div>
       </div>
@@ -114,11 +72,105 @@ function SellerDashboard() {
   );
 }
 
-const inputStyle = { display: 'block', marginBottom: '10px', width: '100%', padding: '8px', borderRadius: '5px', border: '1px solid #ccc' };
-const buttonStyle = { background: '#28a745', color: 'white', padding: '10px', border: 'none', borderRadius: '5px', marginTop: '10px' };
-const cardStyle = { width: '250px', border: '1px solid #ccc', padding: '10px', borderRadius: '8px', textAlign: 'center' };
-const imageStyle = { width: '100%', height: '150px', objectFit: 'cover', borderRadius: '5px' };
-const editButtonStyle = { background: '#2196F3', color: 'white', padding: '8px 12px', marginRight: '10px', border: 'none', borderRadius: '5px', cursor: 'pointer' };
-const deleteButtonStyle = { background: '#f44336', color: 'white', padding: '8px 12px', border: 'none', borderRadius: '5px', cursor: 'pointer' };
-
 export default SellerDashboard;
+
+const containerStyle = {
+  maxWidth: '1100px',
+  margin: '40px auto',
+  padding: '30px',
+  backgroundColor: '#fff',
+  borderRadius: '8px',
+  boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+};
+
+const headingStyle = {
+  fontSize: '26px',
+  fontWeight: '700',
+  marginBottom: '10px',
+  color: '#333',
+};
+
+const subheadingStyle = {
+  fontSize: '20px',
+  fontWeight: '500',
+  margin: '20px 0 10px',
+  color: '#555',
+};
+
+const gridStyle = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+  gap: '20px',
+};
+
+const cardStyle = {
+  backgroundColor: '#fff',
+  borderRadius: '8px',
+  boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+  padding: '15px',
+  textAlign: 'center',
+  transition: 'box-shadow 0.2s',
+};
+
+const imageStyle = {
+  width: '100%',
+  height: '150px',
+  objectFit: 'cover',
+  borderRadius: '5px',
+  marginBottom: '10px',
+};
+
+const titleStyle = {
+  fontSize: '18px',
+  fontWeight: '600',
+  color: '#333',
+  margin: '8px 0',
+};
+
+const priceStyle = {
+  fontSize: '16px',
+  fontWeight: '500',
+  color: '#2a9d8f',
+  margin: '4px 0',
+};
+
+const descStyle = {
+  fontSize: '14px',
+  color: '#666',
+  margin: '4px 0 8px',
+};
+
+const stockStyle = {
+  fontSize: '14px',
+  color: '#888',
+};
+
+const buttonGroupStyle = {
+  marginTop: '12px',
+  display: 'flex',
+  justifyContent: 'center',
+  gap: '10px',
+};
+
+const editButtonStyle = {
+  background: '#2196F3',
+  color: '#fff',
+  padding: '8px 12px',
+  border: 'none',
+  borderRadius: '5px',
+  cursor: 'pointer',
+};
+
+const deleteButtonStyle = {
+  background: '#f44336',
+  color: '#fff',
+  padding: '8px 12px',
+  border: 'none',
+  borderRadius: '5px',
+  cursor: 'pointer',
+};
+
+const emptyStyle = {
+  fontSize: '16px',
+  color: '#666',
+};
