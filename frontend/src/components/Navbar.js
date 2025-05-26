@@ -72,10 +72,14 @@ function Navbar() {
             </Link>
             <Link to="/seller/orders" style={linkStyle} onMouseEnter={hoverLink} onMouseLeave={leaveLink}>
               Orders
-            </Link>
-            {/* <Link to="/seller/history" style={linkStyle} onMouseEnter={hoverLink} onMouseLeave={leaveLink}>
-              Order History
-            </Link> */}
+            </Link> 
+          </>
+        )}
+       
+        {role === 'admin' && (
+          <>
+            <Link style={linkStyle} onMouseEnter={hoverLink} onMouseLeave={leaveLink} to="/admin/manage">Manage Users</Link>
+            <Link style={linkStyle} onMouseEnter={hoverLink} onMouseLeave={leaveLink} to="/admin/analytics">Analytics</Link>
           </>
         )}
 

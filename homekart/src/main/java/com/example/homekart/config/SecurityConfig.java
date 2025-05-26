@@ -96,6 +96,8 @@ public class SecurityConfig {
                                 "/api/delivery/auth/**",
                                 "/api/products/**",
                                 "/api/public/**",
+                                "/api/admin/manage/**",
+                                "/api/admin/analytics/**",
                                 "/",
                                 "/home",
                                 "/error")

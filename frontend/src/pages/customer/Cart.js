@@ -262,6 +262,7 @@ const styles = {
   card: {
     backgroundColor: '#f9f9f9',
     padding: '16px',
+    // width: '50%'
     borderRadius: '6px',
     marginBottom: '16px',
     boxShadow: '0 2px 6px rgba(0,0,0,0.05)'

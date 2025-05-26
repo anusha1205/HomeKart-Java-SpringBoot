@@ -15,6 +15,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import DeliveryOrders from './pages/delivery/DeliveryOrders';
 import DeliveryHistory from './pages/delivery/DeliveryHistory';
 import SellerOrderHistory from './pages/seller/SellerOrderHistory';
+import AdminManage from './pages/admin/ManageUsers';
+import AdminAnalytics from './pages/admin/Analytics';
 
 
 function App() {
@@ -45,6 +47,14 @@ function App() {
           <Route path="/delivery/orders" element={<DeliveryOrders />} />
           <Route path="/delivery/history" element={<DeliveryHistory />} />
 
+
+          {/* ADMIN ROUTES */}
+          {/* <Route path="/admin/sales" element={<SalesDashboard />} />
+          <Route path="/admin/stock" element={<InventoryAlerts />} />
+          <Route path="/admin/feedback" element={<FeedbackOverview />} /> */}
+
+          <Route path="/admin/manage" element={<AdminManage />} />
+          <Route path="/admin/analytics" element={<AdminAnalytics />} />
         </Routes>
       </Router>
       <ToastContainer position="top-right" autoClose={2000} />

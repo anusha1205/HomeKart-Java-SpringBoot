@@ -503,30 +503,30 @@ const styles = {
     overflowX: 'auto',
     boxSizing: 'border-box'
   },
-  filterGroup: {
-    display: 'flex',
-    flexDirection: 'column',
-    minWidth: '150px',
-    fontFamily: `'Segoe UI', sans-serif`
-  },
-  label: {
-    fontSize: '14px',
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: '6px'
-  },
-  select: {
-    padding: '8px 12px',
-    borderRadius: '8px',
-    border: '1px solid #ccc',
-    fontSize: '14px',
-    fontFamily: `'Segoe UI', sans-serif`,
-    outline: 'none',
-    transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
-    backgroundColor: '#fff',
-    boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
-    cursor: 'pointer'
-  },
+  // filterGroup: {
+  //   display: 'flex',
+  //   flexDirection: 'column',
+  //   minWidth: '150px',
+  //   fontFamily: `'Segoe UI', sans-serif`
+  // },
+  // label: {
+  //   fontSize: '14px',
+  //   fontWeight: '600',
+  //   color: '#333',
+  //   marginBottom: '6px'
+  // },
+  // select: {
+  //   padding: '8px 12px',
+  //   borderRadius: '8px',
+  //   border: '1px solid #ccc',
+  //   fontSize: '14px',
+  //   fontFamily: `'Segoe UI', sans-serif`,
+  //   outline: 'none',
+  //   transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+  //   backgroundColor: '#fff',
+  //   boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
+  //   cursor: 'pointer'
+  // },
   grid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fill,minmax(240px,1fr))',
